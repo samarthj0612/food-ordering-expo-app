@@ -1,5 +1,5 @@
 import { Redirect } from "expo-router";
 
 export default function TabScreen(){
-  return <Redirect href={'/menu'} />
+  return <Redirect href={'/(user)/menu'} />
 }
