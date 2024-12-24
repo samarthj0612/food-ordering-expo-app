@@ -1,20 +1,26 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import Colors from "@constants/Colors";
 import { Product } from "../types";
-import { Link } from "expo-router";
+import { Link, useSegments } from "expo-router";
 
-export const defaultPizzaImage = 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/default.png';
+export const defaultPizzaImage =
+  "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/default.png";
 
 type ProductCardProps = {
-  product: Product
-}
+  product: Product;
+};
 
 const ProductCard = ({ product }: ProductCardProps) => {
+  const segments = useSegments();
 
   return (
-    <Link href={`/menu/product/${product.id}`} asChild>
+    <Link href={`/${segments[0]}/menu/product/${product.id}`} asChild>
       <Pressable style={styles.container}>
-        <Image source={{ uri: product.image || defaultPizzaImage, }} style={styles.image} resizeMode="contain" />
+        <Image
+          source={{ uri: product.image || defaultPizzaImage }}
+          style={styles.image}
+          resizeMode="contain"
+        />
         <Text style={styles.title}>{product.name}</Text>
         <Text style={styles.price}>${product.price}</Text>
       </Pressable>
