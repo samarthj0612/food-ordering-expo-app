@@ -1,29 +1,60 @@
-import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
 import React, { useState } from "react";
-import Button from "../../components/Button";
-import Colors from "../../constants/Colors";
+import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
 import { Link } from "expo-router";
 
+import Button from "@components/Button";
+import Colors from "@constants/Colors";
+import { supabase } from "@/src/lib/supabase";
+
 const SignUpScreen = () => {
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   async function signUpWithEmail() {
     setLoading(true);
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { name, phone },
+      },
+    });
 
-    // TODO: Add logic to signup with email
-
+    if (error) {
+      Alert.alert(error.message);
+    } else {
+      console.log("DATA => ", data);
+    }
     setLoading(false);
   }
 
   return (
     <View style={styles.container}>
+      <Text style={styles.label}>Name</Text>
+      <TextInput
+        value={name}
+        onChangeText={setName}
+        placeholder="Enter your name"
+        style={styles.input}
+      />
+
       <Text style={styles.label}>Email</Text>
       <TextInput
         value={email}
         onChangeText={setEmail}
         placeholder="jon@gmail.com"
+        style={styles.input}
+        autoCapitalize="none"
+      />
+
+      <Text style={styles.label}>Mobile</Text>
+      <TextInput
+        value={phone}
+        onChangeText={setPhone}
+        placeholder="+91 123 456 7890"
         style={styles.input}
       />
 
@@ -31,8 +62,9 @@ const SignUpScreen = () => {
       <TextInput
         value={password}
         onChangeText={setPassword}
-        placeholder=""
+        placeholder="Enter your password"
         style={styles.input}
+        autoCapitalize="none"
         secureTextEntry
       />
 

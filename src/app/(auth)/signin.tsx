@@ -1,8 +1,10 @@
-import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
 import React, { useState } from "react";
-import Button from "../../components/Button";
-import Colors from "../../constants/Colors";
+import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
 import { Link } from "expo-router";
+
+import Button from "@components/Button";
+import Colors from "@constants/Colors";
+import { supabase } from "@/src/lib/supabase";
 
 const SignInScreen = () => {
   const [email, setEmail] = useState("");
@@ -11,9 +13,16 @@ const SignInScreen = () => {
 
   async function signInWithEmail() {
     setLoading(true);
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
 
-    // TODO: Add logic to signin with email
-
+    if (error) {
+      Alert.alert(error.message);
+    } else {
+      console.log("DATA => ", data);
+    }
     setLoading(false);
   }
 
@@ -25,14 +34,16 @@ const SignInScreen = () => {
         onChangeText={setEmail}
         placeholder="jon@gmail.com"
         style={styles.input}
+        autoCapitalize="none"
       />
 
       <Text style={styles.label}>Password</Text>
       <TextInput
         value={password}
         onChangeText={setPassword}
-        placeholder=""
+        placeholder="h@Ayszn4"
         style={styles.input}
+        autoCapitalize="none"
         secureTextEntry
       />
 
@@ -41,8 +52,9 @@ const SignInScreen = () => {
         disabled={loading}
         text={loading ? "Signing in..." : "Sign in"}
       />
+
       <Link href="/signup" style={styles.textButton}>
-        Create an account
+        Don't have a account?
       </Link>
     </View>
   );
@@ -54,9 +66,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flex: 1,
   },
+
   label: {
     color: "gray",
   },
+
   input: {
     borderWidth: 1,
     borderColor: "gray",
@@ -66,6 +80,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 5,
   },
+
   textButton: {
     alignSelf: "center",
     fontWeight: "bold",
