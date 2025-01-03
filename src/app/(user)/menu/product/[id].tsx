@@ -1,10 +1,11 @@
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { Stack, useLocalSearchParams } from "expo-router";
-import products from "@/assets/data/products";
-import Button from "@/src/components/Button";
-import { useCartContext } from "@/src/providers/CartProvider";
+
 import { PizzaSize } from "@/src/types";
+import Button from "@/src/components/Button";
+import products from "@/assets/data/products";
+import { useCartContext } from "@/src/providers/CartProvider";
 
 const sizes: PizzaSize[] = ["S", "M", "L", "XL"];
 
@@ -14,7 +15,7 @@ const ProductDetails = () => {
   const { addItem } = useCartContext();
 
   const product = products.find((el) => el.id.toString() === id);
-  if(!product){
+  if (!product) {
     return (
       <View>
         <Text>No Product Found</Text>
@@ -23,9 +24,9 @@ const ProductDetails = () => {
   }
 
   const addToCart = () => {
-    console.warn(`You are gonna add ${product.name} of size ${selectedSize}`)
+    console.warn(`You are gonna add ${product.name} of size ${selectedSize}`);
     addItem(product, selectedSize);
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -40,9 +41,22 @@ const ProductDetails = () => {
             return (
               <Pressable
                 key={idx}
-                style={[styles.size , { backgroundColor: selectedSize === size ?  "gainsboro" : "transparent"}]} onPress={() => setSelectedSize(size)}
+                style={[
+                  styles.size,
+                  {
+                    backgroundColor:
+                      selectedSize === size ? "gainsboro" : "transparent",
+                  },
+                ]}
+                onPress={() => setSelectedSize(size)}
               >
-                <Text style={[ { fontWeight: selectedSize === size ? "bold": "regular" } ]} >{size}</Text>
+                <Text
+                  style={[
+                    { fontWeight: selectedSize === size ? "bold" : "regular" },
+                  ]}
+                >
+                  {size}
+                </Text>
               </Pressable>
             );
           })}
@@ -56,7 +70,7 @@ export default ProductDetails;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 12
+    padding: 12,
   },
   image: {
     width: "100%",
@@ -72,7 +86,7 @@ const styles = StyleSheet.create({
   sizes: {
     flexDirection: "row",
     justifyContent: "space-around",
-    marginVertical: 18
+    marginVertical: 18,
   },
 
   size: {
@@ -81,5 +95,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: "50%",
-  }
+  },
 });

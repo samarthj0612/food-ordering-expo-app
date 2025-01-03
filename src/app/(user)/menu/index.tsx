@@ -1,19 +1,31 @@
-import { FlatList, Platform, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
+import { Stack } from "expo-router";
+
 import products from "@assets/data/products";
 import ProductCard from "@components/ProductCard";
-import { StatusBar } from "expo-status-bar";
 
-export default function TabOneScreen() {
+export default function Menu() {
   return (
     <View>
-      <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
+      <Stack.Screen options={{ title: "Menu" }} />
       <FlatList
         data={products}
         renderItem={({ item }) => <ProductCard product={item} />}
         numColumns={2}
-        contentContainerStyle={{ padding: 12, gap: 12 }}
-        columnWrapperStyle={{ gap: 12 }}
+        contentContainerStyle={styles.contentContainer}
+        columnWrapperStyle={styles.columnWrapper}
       />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  contentContainer: {
+    padding: 12,
+    gap: 12,
+  },
+
+  columnWrapper: {
+    gap: 12,
+  },
+});
