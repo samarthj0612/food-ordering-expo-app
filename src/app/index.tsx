@@ -14,7 +14,7 @@ const App = () => {
   }
 
   if (!session) {
-    return <Redirect href={"/(auth)"} />;
+    return <Redirect href={"/(auth)/signin"} />;
   }
 
   if (!isAdmin) {

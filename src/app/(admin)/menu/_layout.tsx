@@ -13,7 +13,6 @@ export default function MenuLayout() {
       [{ text: "No" }, { text: "Yes", onPress: () => supabase.auth.signOut() }],
       { cancelable: true }
     );
-    supabase.auth.signOut();
   };
 
   return (
