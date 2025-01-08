@@ -1,20 +1,31 @@
 import React, { useState } from "react";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import {
+  ActivityIndicator,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 import { PizzaSize } from "@/src/types";
 import Button from "@/src/components/Button";
-import products from "@/assets/data/products";
+import { useProduct } from "@/src/api/products";
 import { useCartContext } from "@/src/providers/CartProvider";
+import { defaultPizzaImage } from "@/src/components/ProductCard";
 
 const sizes: PizzaSize[] = ["S", "M", "L", "XL"];
 
 const ProductDetails = () => {
-  const { id } = useLocalSearchParams();
   const [selectedSize, setSelectedSize] = useState<PizzaSize>("M");
+  const router = useRouter();
   const { addItem } = useCartContext();
+  
+  const { id: idString } = useLocalSearchParams();
+  const id = parseFloat(typeof idString === "string" ? idString : idString[0]);
+  const { data: product, error, isLoading } = useProduct(id);
 
-  const product = products.find((el) => el.id.toString() === id);
   if (!product) {
     return (
       <View>
@@ -24,14 +35,25 @@ const ProductDetails = () => {
   }
 
   const addToCart = () => {
-    console.warn(`You are gonna add ${product.name} of size ${selectedSize}`);
+    if (!product) {
+      return;
+    }
     addItem(product, selectedSize);
+    router.push("/cart");
   };
+
+  if (isLoading) {
+    return <ActivityIndicator />;
+  }
+
+  if (error) {
+    return <Text>Failed to fetch products</Text>;
+  }
 
   return (
     <View style={styles.container}>
       <Stack.Screen options={{ title: product?.name }} />
-      <Image source={{ uri: product?.image }} style={styles.image} />
+      <Image source={{ uri: product?.image ?? defaultPizzaImage }} style={styles.image} />
       <Text style={styles.price}>${product?.price}</Text>
       <Text>Select size-</Text>
       <View style={styles.sizes}>

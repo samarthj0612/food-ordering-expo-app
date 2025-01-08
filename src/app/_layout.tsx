@@ -17,6 +17,7 @@ import { useColorScheme } from "@components/useColorScheme";
 import CartProvider from "@/src/providers/CartProvider";
 import AuthProvider from "@/src/providers/AuthProvider";
 import { Config } from "@/src/config";
+import QueryProvider from "../providers/QueryProvider";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -62,46 +63,48 @@ function RootLayoutNav() {
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <StatusBar style={Platform.OS === "ios" ? "light" : "auto"} />
       <AuthProvider>
-        <CartProvider>
-          <Stack>
-            <Stack.Screen
-              name="index"
-              options={{
-                title: "Home",
-                headerShown: !Config.PRODUCTION,
-                headerBackVisible: !Config.PRODUCTION,
-              }}
-            />
-            <Stack.Screen
-              name="(auth)"
-              options={{
-                title: "Authentication",
-                headerShown: !Config.PRODUCTION,
-                headerBackVisible: !Config.PRODUCTION,
-              }}
-            />
-            <Stack.Screen
-              name="(admin)"
-              options={{
-                title: "Admin Panel",
-                headerShown: !Config.PRODUCTION,
-                headerBackVisible: !Config.PRODUCTION,
-              }}
-            />
-            <Stack.Screen
-              name="(user)"
-              options={{
-                title: "User Panel",
-                headerShown: !Config.PRODUCTION,
-                headerBackVisible: !Config.PRODUCTION,
-              }}
-            />
-            <Stack.Screen
-              name="cart"
-              options={{ title: "Cart", presentation: "modal" }}
-            />
-          </Stack>
-        </CartProvider>
+        <QueryProvider>
+          <CartProvider>
+            <Stack>
+              <Stack.Screen
+                name="index"
+                options={{
+                  title: "Home",
+                  headerShown: !Config.PRODUCTION,
+                  headerBackVisible: !Config.PRODUCTION,
+                }}
+              />
+              <Stack.Screen
+                name="(auth)"
+                options={{
+                  title: "Authentication",
+                  headerShown: !Config.PRODUCTION,
+                  headerBackVisible: !Config.PRODUCTION,
+                }}
+              />
+              <Stack.Screen
+                name="(admin)"
+                options={{
+                  title: "Admin Panel",
+                  headerShown: !Config.PRODUCTION,
+                  headerBackVisible: !Config.PRODUCTION,
+                }}
+              />
+              <Stack.Screen
+                name="(user)"
+                options={{
+                  title: "User Panel",
+                  headerShown: !Config.PRODUCTION,
+                  headerBackVisible: !Config.PRODUCTION,
+                }}
+              />
+              <Stack.Screen
+                name="cart"
+                options={{ title: "Cart", presentation: "modal" }}
+              />
+            </Stack>
+          </CartProvider>
+        </QueryProvider>
       </AuthProvider>
     </ThemeProvider>
   );
