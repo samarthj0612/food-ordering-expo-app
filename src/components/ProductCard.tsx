@@ -1,13 +1,13 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import Colors from "@constants/Colors";
-import { Product } from "../types";
+import { Tables } from "../types";
 import { Link, useSegments } from "expo-router";
 
 export const defaultPizzaImage =
   "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/default.png";
 
 type ProductCardProps = {
-  product: Product;
+  product: Tables<"products">;
 };
 
 const ProductCard = ({ product }: ProductCardProps) => {
