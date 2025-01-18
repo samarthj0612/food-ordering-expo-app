@@ -6,7 +6,7 @@ import CartListItem from "@components/CartListItem";
 import Button from "@components/Button";
 
 const CartScreen = () => {
-  const { items, total } = useCartContext();
+  const { items, total, checkout } = useCartContext();
 
   return (
     <View style={{ padding: 10 }}>
@@ -16,7 +16,7 @@ const CartScreen = () => {
         contentContainerStyle={{ padding: 10, gap: 10 }}
       />
       <Text style={styles.totalPrice}>Total: ${total}</Text>
-      <Button text="Checkout" />
+      <Button onPress={checkout} text="Checkout" />
     </View>
   );
 };
