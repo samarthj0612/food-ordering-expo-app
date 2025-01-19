@@ -6,7 +6,7 @@ import { useProductList } from "@/src/api/products";
 
 export default function Menu() {
   const { data: products, error, isLoading } = useProductList();
-  
+
   if (isLoading) return <ActivityIndicator />
 
   if (error) return <Text>Failed to fetch the products</Text>
